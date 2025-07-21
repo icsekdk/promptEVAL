@@ -1,0 +1,316 @@
+
+type token = 
+  | YESTERDAY
+  | UNTIL
+  | TRUE
+  | TOMORROW
+  | SINCE
+  | RPAREN
+  | OR
+  | ONCE
+  | NOT
+  | LPAREN
+  | IMPLY
+  | ID of (
+# 5 "corrected_version/ltlutils/lib/Parser.mly"
+       (string)
+# 18 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+)
+  | HISTORICALLY
+  | GLOBALLY
+  | FALSE
+  | EVENTUALLY
+  | EQUIV
+  | EOF
+  | AND
+
+# 1 "corrected_version/ltlutils/lib/Parser.mly"
+  
+open Ast
+
+# 32 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+
+let menhir_begin_marker =
+  0
+
+and (xv_ltlf, xv_formula) =
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 59 "corrected_version/ltlutils/lib/Parser.mly"
+                            f2
+# 41 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f2_ : Lexing.position) (_endpos_f2_ : Lexing.position) (_startofs_f2_ : int) (_endofs_f2_ : int) (_loc_f2_ : Lexing.position * Lexing.position) (
+# 59 "corrected_version/ltlutils/lib/Parser.mly"
+                    _2
+# 45 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 59 "corrected_version/ltlutils/lib/Parser.mly"
+          f1
+# 49 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f1_ : Lexing.position) (_endpos_f1_ : Lexing.position) (_startofs_f1_ : int) (_endofs_f1_ : int) (_loc_f1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 59 "corrected_version/ltlutils/lib/Parser.mly"
+                                      ( BinPOP(EQUIV, f1, f2) )
+# 54 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 58 "corrected_version/ltlutils/lib/Parser.mly"
+                            f2
+# 59 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f2_ : Lexing.position) (_endpos_f2_ : Lexing.position) (_startofs_f2_ : int) (_endofs_f2_ : int) (_loc_f2_ : Lexing.position * Lexing.position) (
+# 58 "corrected_version/ltlutils/lib/Parser.mly"
+                    _2
+# 63 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 58 "corrected_version/ltlutils/lib/Parser.mly"
+          f1
+# 67 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f1_ : Lexing.position) (_endpos_f1_ : Lexing.position) (_startofs_f1_ : int) (_endofs_f1_ : int) (_loc_f1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 58 "corrected_version/ltlutils/lib/Parser.mly"
+                                      ( BinPOP(IMPLY, f1, f2) )
+# 72 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 57 "corrected_version/ltlutils/lib/Parser.mly"
+                         f2
+# 77 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f2_ : Lexing.position) (_endpos_f2_ : Lexing.position) (_startofs_f2_ : int) (_endofs_f2_ : int) (_loc_f2_ : Lexing.position * Lexing.position) (
+# 57 "corrected_version/ltlutils/lib/Parser.mly"
+                    _2
+# 81 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 57 "corrected_version/ltlutils/lib/Parser.mly"
+          f1
+# 85 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f1_ : Lexing.position) (_endpos_f1_ : Lexing.position) (_startofs_f1_ : int) (_endofs_f1_ : int) (_loc_f1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 57 "corrected_version/ltlutils/lib/Parser.mly"
+                                   ( BinPOP(OR, f1, f2) )
+# 90 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 56 "corrected_version/ltlutils/lib/Parser.mly"
+                          f2
+# 95 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f2_ : Lexing.position) (_endpos_f2_ : Lexing.position) (_startofs_f2_ : int) (_endofs_f2_ : int) (_loc_f2_ : Lexing.position * Lexing.position) (
+# 56 "corrected_version/ltlutils/lib/Parser.mly"
+                    _2
+# 99 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 56 "corrected_version/ltlutils/lib/Parser.mly"
+          f1
+# 103 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f1_ : Lexing.position) (_endpos_f1_ : Lexing.position) (_startofs_f1_ : int) (_endofs_f1_ : int) (_loc_f1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 56 "corrected_version/ltlutils/lib/Parser.mly"
+                                    ( BinPOP(AND, f1, f2) )
+# 108 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 55 "corrected_version/ltlutils/lib/Parser.mly"
+                            f2
+# 113 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f2_ : Lexing.position) (_endpos_f2_ : Lexing.position) (_startofs_f2_ : int) (_endofs_f2_ : int) (_loc_f2_ : Lexing.position * Lexing.position) (
+# 55 "corrected_version/ltlutils/lib/Parser.mly"
+                    _2
+# 117 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 55 "corrected_version/ltlutils/lib/Parser.mly"
+          f1
+# 121 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f1_ : Lexing.position) (_endpos_f1_ : Lexing.position) (_startofs_f1_ : int) (_endofs_f1_ : int) (_loc_f1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 55 "corrected_version/ltlutils/lib/Parser.mly"
+                                      ( BinTOP(UNTIL, f1, f2) )
+# 126 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 54 "corrected_version/ltlutils/lib/Parser.mly"
+                            f2
+# 131 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f2_ : Lexing.position) (_endpos_f2_ : Lexing.position) (_startofs_f2_ : int) (_endofs_f2_ : int) (_loc_f2_ : Lexing.position * Lexing.position) (
+# 54 "corrected_version/ltlutils/lib/Parser.mly"
+                    _2
+# 135 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 54 "corrected_version/ltlutils/lib/Parser.mly"
+          f1
+# 139 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f1_ : Lexing.position) (_endpos_f1_ : Lexing.position) (_startofs_f1_ : int) (_endofs_f1_ : int) (_loc_f1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 54 "corrected_version/ltlutils/lib/Parser.mly"
+                                      ( BinTOP( SINCE, f1, f2) )
+# 144 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 53 "corrected_version/ltlutils/lib/Parser.mly"
+                    f
+# 149 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 53 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 153 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 53 "corrected_version/ltlutils/lib/Parser.mly"
+                             ( UnTOP(GLOBALLY, f) )
+# 158 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 52 "corrected_version/ltlutils/lib/Parser.mly"
+                        f
+# 163 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 52 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 167 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 52 "corrected_version/ltlutils/lib/Parser.mly"
+                                 ( UnTOP(HISTORICALLY, f) )
+# 172 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 51 "corrected_version/ltlutils/lib/Parser.mly"
+                      f
+# 177 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 51 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 181 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 51 "corrected_version/ltlutils/lib/Parser.mly"
+                               ( UnTOP(EVENTUALLY, f) )
+# 186 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 50 "corrected_version/ltlutils/lib/Parser.mly"
+                f
+# 191 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 50 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 195 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 50 "corrected_version/ltlutils/lib/Parser.mly"
+                         ( UnTOP(ONCE, f) )
+# 200 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 49 "corrected_version/ltlutils/lib/Parser.mly"
+                    f
+# 205 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 49 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 209 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 49 "corrected_version/ltlutils/lib/Parser.mly"
+                             ( UnTOP(TOMORROW, f) )
+# 214 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 48 "corrected_version/ltlutils/lib/Parser.mly"
+                     f
+# 219 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 48 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 223 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 48 "corrected_version/ltlutils/lib/Parser.mly"
+                              ( UnTOP(YESTERDAY, f) )
+# 228 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 47 "corrected_version/ltlutils/lib/Parser.mly"
+               f
+# 233 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 47 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 237 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 47 "corrected_version/ltlutils/lib/Parser.mly"
+                        ( Not f )
+# 242 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 46 "corrected_version/ltlutils/lib/Parser.mly"
+          x
+# 247 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : (
+# 5 "corrected_version/ltlutils/lib/Parser.mly"
+       (string)
+# 251 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+  )) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 46 "corrected_version/ltlutils/lib/Parser.mly"
+                 ( Identifier x )
+# 256 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 45 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 261 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 45 "corrected_version/ltlutils/lib/Parser.mly"
+                ( LFalse )
+# 266 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 44 "corrected_version/ltlutils/lib/Parser.mly"
+                            _3
+# 271 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 44 "corrected_version/ltlutils/lib/Parser.mly"
+                  f
+# 275 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 44 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 279 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 44 "corrected_version/ltlutils/lib/Parser.mly"
+                                    ( f )
+# 284 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 43 "corrected_version/ltlutils/lib/Parser.mly"
+         _1
+# 289 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) : 'tv_ltlf ->
+    
+# 43 "corrected_version/ltlutils/lib/Parser.mly"
+               ( LTrue )
+# 294 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     in
+  let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 40 "corrected_version/ltlutils/lib/Parser.mly"
+                   _2
+# 299 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 40 "corrected_version/ltlutils/lib/Parser.mly"
+          f
+# 303 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+   : 'tv_ltlf) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) : (
+# 35 "corrected_version/ltlutils/lib/Parser.mly"
+       (Ast.ltlformula)
+# 307 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+  ) ->
+    (
+# 40 "corrected_version/ltlutils/lib/Parser.mly"
+                        ( f )
+# 312 "corrected_version/ltlutils/lib/Parser__mock.ml.mock"
+     : 'tv_formula) in
+  ((let rec diverge() = diverge() in diverge()) : 'tv_ltlf * 'tv_formula)
+
+and menhir_end_marker =
+  0

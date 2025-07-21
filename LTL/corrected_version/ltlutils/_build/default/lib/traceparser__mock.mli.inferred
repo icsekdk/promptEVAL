@@ -1,0 +1,18 @@
+type token =
+    TRUE
+  | SEMICOLON
+  | RBRAC
+  | PROPEQUAL
+  | LBRAC
+  | ID of string
+  | FALSE
+  | EOF
+  | ELLIPSIS
+  | COMMA
+val menhir_begin_marker : int
+val xv_state : Traceast.trace_state
+val xv_singletrace : Traceast.trace
+val xv_bval : bool
+val xv_assignment_list : Traceast.trace_state
+val xv_assignment : Traceast.trace_state
+val menhir_end_marker : int

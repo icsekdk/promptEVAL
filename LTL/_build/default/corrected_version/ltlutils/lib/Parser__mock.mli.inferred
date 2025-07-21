@@ -1,0 +1,24 @@
+type token =
+    YESTERDAY
+  | UNTIL
+  | TRUE
+  | TOMORROW
+  | SINCE
+  | RPAREN
+  | OR
+  | ONCE
+  | NOT
+  | LPAREN
+  | IMPLY
+  | ID of string
+  | HISTORICALLY
+  | GLOBALLY
+  | FALSE
+  | EVENTUALLY
+  | EQUIV
+  | EOF
+  | AND
+val menhir_begin_marker : int
+val xv_ltlf : Ast.ltlformula
+val xv_formula : Ast.ltlformula
+val menhir_end_marker : int

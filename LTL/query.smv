@@ -1,0 +1,10 @@
+MODULE main
+VAR
+x1 : boolean;
+
+ASSIGN
+init(x1) := {TRUE, FALSE};
+next(x1) := {TRUE, FALSE};
+
+LTLSPEC ((x1  ->  (X (!(x1))  &  X (X (x1)))) -> (x1  ->  (X (!(x1))  &  X (X (x1)))))
+
