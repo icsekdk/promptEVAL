@@ -1,0 +1,53 @@
+Model,Approach,Natural Language,Ground Truth,Formula,Raw Response
+gpt-3.5-turbo,zero_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!France_2006_world_cup
+
+France_2006_world_cup : ""France won the 2006 world cup"""
+gpt-3.5-turbo,zero_shot_self_refine,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!f
+
+f : ""France won the 2006 world cup"""
+gpt-3.5-turbo,few_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!w
+
+w : France won the 2006 world cup"
+gpt-4o-mini,zero_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!p
+
+p : ""France won the 2006 world cup"""
+gpt-4o-mini,zero_shot_self_refine,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!p
+
+p : ""France won the 2006 world cup"""
+gpt-4o-mini,few_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!w
+
+w : ""France won the 2006 world cup"""
+gpt-4o,zero_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"```
+!F
+
+F : ""France won the 2006 world cup""
+```"
+gpt-4o,zero_shot_self_refine,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"```
+!F
+
+F : ""France won the 2006 world cup""
+```"
+gpt-4o,few_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!w
+
+w : ""France won the 2006 world cup"""
+claude-3.5-sonnet,zero_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!FranceWin2006
+
+FranceWin2006 : ""France won the 2006 world cup"""
+claude-3.5-sonnet,zero_shot_self_refine,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!p
+
+p : ""France won the 2006 world cup"""
+claude-3.5-sonnet,few_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!w
+
+w : ""France won the 2006 world cup"""
+gemini-1.5-pro,zero_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!FranceWonThe2006WorldCup
+
+FranceWonThe2006WorldCup : ""France won the 2006 world cup""
+"
+gemini-1.5-pro,zero_shot_self_refine,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!FranceWonThe2006WorldCup
+
+FranceWonThe2006WorldCup : ""France won the 2006 world cup""
+"
+gemini-1.5-pro,few_shot,It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p",!p,"!f
+
+f : ""France won the 2006 world cup""
+"

@@ -1,0 +1,53 @@
+Natural Language,Ground Truth,Raw Response,Extracted Predicted Mapping,Ground Truth Phrase,Predicted Phrase,All Phrases,Ground Truth Label,Predicted Label,Accuracy,Precision,Recall,F1,Jaccard,Levenshtein
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!France_2006_world_cup
+
+France_2006_world_cup : ""France won the 2006 world cup""",{'france won the 2006 world cup': 'France_2006_world_cup'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!f
+
+f : ""France won the 2006 world cup""",{'france won the 2006 world cup': 'f'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!w
+
+w : France won the 2006 world cup",{'france won the 2006 world cup': 'w'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!p
+
+p : ""France won the 2006 world cup""",{'france won the 2006 world cup': 'p'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!p
+
+p : ""France won the 2006 world cup""",{'france won the 2006 world cup': 'p'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!w
+
+w : ""France won the 2006 world cup""",{'france won the 2006 world cup': 'w'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","```
+!F
+
+F : ""France won the 2006 world cup""
+```",{'france won the 2006 world cup': 'F'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","```
+!F
+
+F : ""France won the 2006 world cup""
+```",{'france won the 2006 world cup': 'F'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!w
+
+w : ""France won the 2006 world cup""",{'france won the 2006 world cup': 'w'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!FranceWin2006
+
+FranceWin2006 : ""France won the 2006 world cup""",{'france won the 2006 world cup': 'FranceWin2006'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!p
+
+p : ""France won the 2006 world cup""",{'france won the 2006 world cup': 'p'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!w
+
+w : ""France won the 2006 world cup""",{'france won the 2006 world cup': 'w'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!FranceWonThe2006WorldCup
+
+FranceWonThe2006WorldCup : ""France won the 2006 world cup""
+",{'france won the 2006 world cup': 'FranceWonThe2006WorldCup'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!FranceWonThe2006WorldCup
+
+FranceWonThe2006WorldCup : ""France won the 2006 world cup""
+",{'france won the 2006 world cup': 'FranceWonThe2006WorldCup'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
+It is not the case that France won the 2006 world cup,"""France won the 2006 world cup"": p","!f
+
+f : ""France won the 2006 world cup""
+",{'france won the 2006 world cup': 'f'},{'france won the 2006 world cup'},{'france won the 2006 world cup'},['france won the 2006 world cup'],[1],[1],100.00,100.00,100.00,100.00,1.00,0.00
