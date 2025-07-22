@@ -3,8 +3,8 @@ def generate_base_prompt(ltl_formula: str, trace: str) -> str:
 You are given an LTL formula represented as Python classes and a trace represented as a list of states.
 Your task is to evaluate whether the formula holds over the trace starting at position 0.
 
-python
-```from dataclasses import dataclass
+```python
+from dataclasses import dataclass
 from typing import *
 
 class Formula:
@@ -281,9 +281,9 @@ def evalFormula(f : Formula, t: trace, pos: int) -> myOptionType:
             else:
                 return Some(False)
         case _:
-            return ReallyNone()```
+            return ReallyNone()`
 
-Evaluate the following formula on the trace:
+# Evaluate the following formula on the trace:
 formulaToFind = {ltl_formula}
 traceGivenAsInput = {trace}
 
@@ -292,7 +292,7 @@ result = evalFormula(formulaToFind, traceGivenAsInput, 0)
 match result:
     case Some(True): print("POSITIVE")
     case Some(False): print("NEGATIVE")
-    case _: print("UNKNOWN")
+    case _: print("UNKNOWN")```
 
 NO ADDITIONAL EXPLANATION IS NEEDED, just provide a POSITIVE, NEGATIVE, or UNKNOWN response
 '''

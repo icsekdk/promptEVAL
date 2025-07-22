@@ -133,11 +133,10 @@ def run_trace_check(formula: str, trace: str, ltl_utils_dir: Path) -> str:
 
 def main():
     # Define paths
-    base_dir = Path("/Users/priscilladanso/Documents/StonyBrook/TowardsDissertation/LLM4NL2LTL_project")
-    # Path("LTL/corrected_version/ltlutils").mkdir(parents=True, exist_ok=True)
+    base_dir = Path(__file__).resolve().parents[1]  # Adjust level if needed
+
     ltl_utils_dir = base_dir / "LTL" / "corrected_version" / "ltlutils"
-    # Path("output/trace_generation_detailed.csv").mkdir(parents=True, exist_ok=True)
-    # Path("output/llm_trace_satisfaction_results.csv").mkdir(parents=True, exist_ok=True)
+
     input_csv = base_dir / "llm_LTL" / "output" / "trace_generation" / "trace_generation_detailed.csv"
     output_csv = base_dir / "llm_LTL" / "output" / "trace_generation" / "trace_generation_satisfaction_results.csv"
     

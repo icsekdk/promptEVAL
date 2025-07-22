@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from typing import Dict, Tuple, List
 import pandas as pd
-
+from pathlib import Path
 class MetricsCalculator:
     @staticmethod
     def calculate_metrics_for_group(group_data: pd.DataFrame) -> Dict:
@@ -165,6 +165,12 @@ class AdvancedMetrics:
 def enhance_evaluation(results_df: pd.DataFrame, output_dir: str) -> None:
     """Run enhanced evaluation with visualizations and advanced metrics."""
     # Calculate basic metrics first
+    if not isinstance(output_dir, Path):
+        output_dir = Path(output_dir)
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Ensured output directory exists: {output_dir}")
+
     metrics_calculator = MetricsCalculator()
     metrics_df = metrics_calculator.add_metrics_to_df(results_df)
     

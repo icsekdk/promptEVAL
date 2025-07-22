@@ -9,13 +9,16 @@ def extract_ltl_formula(response_text):
     
     response = response_text.strip()
     
+    # Split response into lines and look for LTL formulas
     lines = response.split('\n')
     
+    # Look for the final/refined formula (usually appears last)
     for line in reversed(lines):
         line = line.strip()
         if not line:
             continue
             
+        # Skip common non-formula lines
         if any(skip_phrase in line.lower() for skip_phrase in [
             'this refined formula', 'better captures', 'requirements:',
             'if client', 'then client', 'if anyone', 'then no one'
@@ -76,9 +79,12 @@ def clean_ltl_formula(formula):
         '∧': '&',
         '∨': '|',
         '¬': '!',
-        '◇': 'F',
-        '□': 'G',
-        '○': 'X'
+        '◇': 'F',  # Eventually (future)
+        '□': 'G',  # Always (future)
+        '○': 'X',  # Next (future)
+        '◆': 'O',  # Once (past)
+        '■': 'H',  # Historically (past)
+        '●': 'Y',  # Yesterday (past)
     }
     
     for unicode_char, ascii_char in replacements.items():
@@ -95,8 +101,8 @@ def is_valid_ltl_formula(formula):
     
     formula = formula.strip()
     
-    # Must contain LTL operators
-    ltl_operators = ['G(', 'F(', 'X(', 'U', '->', '&', '|', '!']
+    # Must contain LTL operators (including past-time operators)
+    ltl_operators = ['G(', 'F(', 'X(', 'U', 'S', 'Y(', 'H(', 'O(', '->', '&', '|', '!']
     has_operator = any(op in formula for op in ltl_operators)
     
     if not has_operator:
@@ -187,9 +193,10 @@ def is_valid_python_ast_pattern(ast_string):
     if not ast_string:
         return False
     
-    # Check for AST function names
+    # Check for AST function names (including past-time operators)
     ast_functions = ['Eventually', 'Always', 'Next', 'AtomicProposition', 
-                    'LImplies', 'LAnd', 'LOr', 'LNot', 'Until']
+                    'LImplies', 'LAnd', 'LOr', 'LNot', 'Until', 'LEquiv',
+                    'Since', 'Once', 'Historically', 'Yesterday']
     
     has_ast_function = any(func in ast_string for func in ast_functions)
     
@@ -220,16 +227,23 @@ def convert_python_ast_to_ltl(python_ast):
         # Replace AST function calls with LTL operators
         ltl_formula = python_ast
         
-        # Temporal operators
+        # Future temporal operators
         ltl_formula = re.sub(r'Eventually\s*\(', 'F(', ltl_formula)
         ltl_formula = re.sub(r'Always\s*\(', 'G(', ltl_formula)
         ltl_formula = re.sub(r'Next\s*\(', 'X(', ltl_formula)
+        
+        # Past temporal operators
+        ltl_formula = re.sub(r'Once\s*\(', 'O(', ltl_formula)
+        ltl_formula = re.sub(r'Historically\s*\(', 'H(', ltl_formula)
+        ltl_formula = re.sub(r'Yesterday\s*\(', 'Y(', ltl_formula)
         
         # Binary operators
         ltl_formula = re.sub(r'LImplies\s*\(\s*([^,]+),\s*([^)]+)\)', r'(\1 -> \2)', ltl_formula)
         ltl_formula = re.sub(r'LAnd\s*\(\s*([^,]+),\s*([^)]+)\)', r'(\1 & \2)', ltl_formula)
         ltl_formula = re.sub(r'LOr\s*\(\s*([^,]+),\s*([^)]+)\)', r'(\1 | \2)', ltl_formula)
+        ltl_formula = re.sub(r'LEquiv\s*\(\s*([^,]+),\s*([^)]+)\)', r'(\1 <-> \2)', ltl_formula)
         ltl_formula = re.sub(r'Until\s*\(\s*([^,]+),\s*([^)]+)\)', r'(\1 U \2)', ltl_formula)
+        ltl_formula = re.sub(r'Since\s*\(\s*([^,]+),\s*([^)]+)\)', r'(\1 S \2)', ltl_formula)
         
         # Unary operators
         ltl_formula = re.sub(r'LNot\s*\(', '!(', ltl_formula)
@@ -251,12 +265,17 @@ def convert_python_ast_to_ltl(python_ast):
             ltl_formula = re.sub(r'F\s*\(', 'F(', ltl_formula)
             ltl_formula = re.sub(r'G\s*\(', 'G(', ltl_formula)
             ltl_formula = re.sub(r'X\s*\(', 'X(', ltl_formula)
+            ltl_formula = re.sub(r'O\s*\(', 'O(', ltl_formula)
+            ltl_formula = re.sub(r'H\s*\(', 'H(', ltl_formula)
+            ltl_formula = re.sub(r'Y\s*\(', 'Y(', ltl_formula)
             
             # Fix spacing around operators
             ltl_formula = re.sub(r'\s*->\s*', ' -> ', ltl_formula)
+            ltl_formula = re.sub(r'\s*<->\s*', ' <-> ', ltl_formula)
             ltl_formula = re.sub(r'\s*&\s*', ' & ', ltl_formula)
             ltl_formula = re.sub(r'\s*\|\s*', ' | ', ltl_formula)
             ltl_formula = re.sub(r'\s*U\s*', ' U ', ltl_formula)
+            ltl_formula = re.sub(r'\s*S\s*', ' S ', ltl_formula)
             
             if ltl_formula == old_formula:
                 break
@@ -287,9 +306,11 @@ def extract_ltl_formula_by_type(response_text, experiment_type="standard"):
             return python_ast
         return convert_python_ast_to_ltl(python_ast)
     else:
+        # For standard experiments, extract LTL directly
         return extract_ltl_formula(response_text)
 
-
+# For backward compatibility - default to the standard LTL extraction
+# unless the experiment type is explicitly "python"
 def get_appropriate_extractor(experiment_type):
     """
     Return the appropriate extraction function based on experiment type.

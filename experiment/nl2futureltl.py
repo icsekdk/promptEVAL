@@ -9,24 +9,13 @@ logger = logging.getLogger(__name__)
 import csv
 from pathlib import Path
 import argparse
-from parse_prompt import send_request
-import argparse
-import argparse
 import importlib
 import csv
 import os
 import pandas as pd
 from pathlib import Path
 from collections import defaultdict
-from parse_prompt import MODEL_SETS, LEARNING_APPROACHES
-import argparse
-import importlib
-import csv
-import os
-import pandas as pd
-from pathlib import Path
-from collections import defaultdict
-from parse_prompt import MODEL_SETS, LEARNING_APPROACHES
+from parse_prompt import send_request, MODEL_SETS, LEARNING_APPROACHES
 from scripts.semantic_checker import process_csv
 from scripts.entail_equiv_analyzer import run_full_analysis
 def get_generate_prompt_function(experiment_type):
@@ -311,7 +300,7 @@ def main():
 
     # Setup models and approaches
     models = args.models if args.models else MODEL_SETS[args.experiment_type]
-    models= ["gemini-1.5-pro", "claude-3.5-sonnet"]
+    # models= ["gemini-1.5-pro", "claude-3.5-sonnet"]
     learning_approaches = args.approaches if args.approaches else LEARNING_APPROACHES[args.experiment_type]
     
     print(f"Using models: {models}")

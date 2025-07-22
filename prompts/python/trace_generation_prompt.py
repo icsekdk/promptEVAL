@@ -1,14 +1,7 @@
 def generate_base_prompt(ltl_formula: str) -> str:
     return f'''You are an expert in Python 3. Your task is to determine a value for the variable `traceGivenAsInput` such that the function prints **POSITIVE** (i.e., the formula evaluates to True) and also such that it prints **NEGATIVE** (i.e., the formula evaluates to False).
 
-The function below evaluates an LTL formula defined as a Python object. The trace is a list of states (each state is a list of variable assignments), and the evaluation starts at position 0.
-
-Your job:
-- Generate a trace for which the LTL formula evaluates to **POSITIVE**
-- Generate a separate trace for which the LTL formula evaluates to **NEGATIVE**
-
-LTL Formula (Python):  {ltl_formula}
-
+```python
 from typing import *
 
 class Formula:
@@ -296,10 +289,9 @@ match result:
     case Some(True): print("POSITIVE")
     case Some(False): print("NEGATIVE")
     case _: print("UNKNOWN")
+    ```
 
 **STRICTLY** Return your answer as a valid string representing a list of states, formatted as:
-[x1 = TRUE, x2 = FALSE];[x1 = FALSE, x2 = TRUE]
-Your output must include both traces in this exact string format:
 SATISFYING: [x1 = TRUE, x2 = FALSE];[x1 = FALSE, x2 = TRUE] FALSIFYING: [x1 = TRUE, x2 = TRUE];[x1 = TRUE, x2 = FALSE]
 **NO ADDITIONAL TEXT OR PYTHON LIST LITERALS SHOULD BE GIVEN, JUST THE TRACE STRING GENERATED**
 '''
@@ -315,6 +307,7 @@ Example 2:
 LTL Formula: Eventually(LAnd(AtomicProposition("a"), AtomicProposition("b")))
 SATISFYING: [a = FALSE, b = TRUE];[a = TRUE, b = FALSE];[a = TRUE, b = TRUE]
 FALSIFYING: [a = FALSE, b = FALSE];[a = FALSE, b = FALSE];[a = FALSE, b = FALSE]
+**NO ADDITIONAL TEXT OR PYTHON LIST LITERALS SHOULD BE GIVEN, JUST THE TRACE STRING GENERATED**
 '''
 
 def handle_self_refinement(base_prompt: str, initial_response: str) -> str:

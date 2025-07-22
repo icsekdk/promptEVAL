@@ -42,15 +42,6 @@ learning_approaches = args.approaches if args.approaches else LEARNING_APPROACHE
 print(f"Models: {models}")
 print(f"Approaches: {learning_approaches}")
 
-def send_request(prompt, model):
-    """
-    Placeholder function to send request to model.
-    Replace this with your actual API call implementation.
-    """
-    # This should contain your actual API call logic
-    # For now, returning a placeholder response
-    return "Yes, this is a well-formed formula."
-
 def characterize_wff(ltl_formula, approach, model, generate_prompt):
     """
     Characterize WFF with proper raw response handling
@@ -185,10 +176,8 @@ def process_row(row, models, learning_approaches, generate_prompt):
             try:
                 print(f"Processing: {model} with {approach} approach...")
                 
-                # Get RAW response from model
                 raw_response = characterize_with_retries(ltl_formula, approach, model, generate_prompt)
                 
-                # Store RAW response without extraction
                 result = {
                     'Model': model,
                     'Approach': approach,
@@ -231,14 +220,11 @@ def evaluate_detailed_results(raw_results_df):
     """
     detailed_results = raw_results_df.copy()
     
-    # Extract LLM predictions from raw responses
     detailed_results['LLM Prediction'] = detailed_results['Raw Response'].apply(extract_llm_response)
     
-    # Add correctness and well-formed status
     detailed_results['Well-Formed'] = detailed_results['LLM Prediction'].apply(lambda x: x == "Yes")
     detailed_results['Correct'] = (detailed_results['Ground Truth'] == detailed_results['LLM Prediction']).astype(int)
     
-    # Add prediction categories
     detailed_results['Prediction_Category'] = detailed_results.apply(
         lambda row: 'True Positive' if row['Ground Truth'] == 'Yes' and row['LLM Prediction'] == 'Yes'
         else 'True Negative' if row['Ground Truth'] == 'No' and row['LLM Prediction'] == 'No'
