@@ -1,61 +1,283 @@
-# LTL
+# LTL Utils - Linear Temporal Logic Utility Tool
 
+This OCaml project provides a comprehensive toolkit for working with Linear Temporal Logic (LTL) formulas, including syntax checking, semantic analysis, equivalence checking, and trace generation/validation.
 
+## Dependencies
 
-### Dependencies 
+### Required Software
+* **OCaml Package Manager (opam)**: Follow installation instructions at [https://opam.ocaml.org/doc/Install.html]
+* **NuSMV Model Checker**: Download from [https://nusmv.fbk.eu/downloads.html]
 
-- Install `opam`. Follow instructions in the following website: [https://opam.ocaml.org/doc/Install.html]
+### OCaml Dependencies
+```bash
+opam init
+opam install dune
+opam install merlin
+opam user-setup install
+opam install menhir
+opam install ocaml-lsp-server
+```
 
-- `opam init`
+## Setup and Compilation
 
-- `opam install dune`
+### NuSMV Configuration
+1. Edit the BASH script `compile-project` in `LTL/corrected_version/ltlutils/`
+2. Replace the NuSMV path with your system's full path to the NuSMV `bin` folder
+3. Make the script executable:
+   ```bash
+   chmod a+x compile-project
+   ```
 
-- `opam install merlin`
+### Build Process
+Navigate to `LTL/corrected_version/ltlutils/` and run:
+```bash
+./compile-project
+dune build
+```
 
-- `opam user-setup install`
+## Execution
 
-- `opam install menhir`
+### Basic Usage
+```bash
+dune exec ./bin/main.exe < input_file
+```
 
-- `opam install ocaml-lsp-server`
+Replace `input_file` with your command file (e.g., `inp_file`, `testingLTL`, etc.)
 
-- Install the NuSMV model checker from the following website: [https://nusmv.fbk.eu/downloads.html]
+### Input Format Rules
+- **Each command and its arguments must be on separate lines**
+- **No empty lines between arguments**
+- **Only the first command in a file will be executed**
+- **Additional commands will be ignored**
 
- 
+## Supported Commands
 
-### Execution 
+### 1. Formula Syntax and Printing
+#### `print_formula`
+Converts and prints LTL formulas in NuSMV format.
 
-- __NuSMV path:__ For compilation, there is a BASH script called `compile-project` where you should put your path of the `bin` folder of NuSMV. Please replace that full path with your computer's path to NuSMV. 
+**Format:**
+```
+print_formula
+<formula>
+```
 
-- Make the `compile-project` inside `LTL/corrected_version/ltlutils/` executable by running the following command in the terminal: `chmod a+x compile-project`
+**Examples:**
+```
+print_formula
+x1 -> X(X(X(x1)))
 
-- Inside the `LTL/corrected_version/ltlutils/` directory run the following command in a Terminal: `./compile-project` 
+print_formula
+G(X(x1) <-> (x2 <-> X(!x2)))
 
--  Inside the `LTL/corrected_version/ltlutils/` directory run the following command in a Terminal : `dune build` `dune exec ./bin/main.exe < inp_file` 
+print_formula
+x & y -> z
+```
 
-### Input commands 
+#### `generate_random_formula`
+Generates a well-formed random LTL formula.
 
-The program takes a command (e.g., `equiv`) and 0, 1, or 2 LTL formulas. 
+**Format:**
+```
+generate_random_formula
+```
 
-__The command, and the formulas should appear in a separate line of its own. The current version cannot handle empty lines between the different arguments.__ (See the `inp_file` for a sample of the commands)
+### 2. Semantic Equivalence Checking
+#### `equiv`
+Checks logical equivalence between two LTL formulas.
 
-The program currently supports handling one command only. 
+**Format:**
+```
+equiv
+<formula_1>
+<formula_2>
+```
 
-The program concretely supports the following commands: 
+**Examples:**
+```
+equiv
+!F(!a)
+G(a)
 
-- `equiv f_1 f_2` (This command checks whether the two input formulas $f_1$ and $f_2$ are logically equivalent or not) 
+equiv
+F(a)
+!G(!a)
 
-- `check_past f` (This command checks to see whether the input formula $f$ contains only propositional logical operators and past temporal operators only; no future temporal operators.) 
+equiv
+F(a)
+!G(a)
+```
 
-- `check_future f` (This command checks to see whether the input formula $f$ contains only propositional logical operators and future temporal operators only; no past temporal operators.) 
+### 3. Temporal Operator Classification
+#### `check_future`
+Verifies if a formula contains only propositional and future temporal operators (no past operators).
 
-- `positive_trace_gen f` (This command tries to generate a trace in the NuSMV trace format that __satisfies__ the given formula $f$. The trace is stored in the following file nusmv_executable_full_path/`trace.out`). Recall that, `nusmv_executable_full_path` refers to the location of NuSMV's `bin` folder in your system that you added in the `main.ml` file discussed above. 
+**Format:**
+```
+check_future
+<formula>
+```
 
-- `negative_trace_gen f` (This command tries to generate a trace in the NuSMV trace format that __falsifies__ the given formula $f$. The trace is stored in the following file `nusmv_executable_full_path/trace.out`). Recall that, `nusmv_executable_full_path` refers to the location of NuSMV's `bin` folder in your system that you added in the `main.ml` file, as discussed above. 
+**Example:**
+```
+check_future
+G(a -> F(b))
+```
 
-- `print_formula f` (This command prints the input LTL formula $f$ in the NuSMV format.)
+#### `check_past`
+Verifies if a formula contains only propositional and past temporal operators (no future operators).
 
-### Sample inputs 
+**Format:**
+```
+check_past
+<formula>
+```
 
-The file `inp_file` contains examples of some commands and with its necessary arguments. Please note that only the first command will be executed and the rest of the commands will be ignored. You can write your own command file. 
+**Example:**
+```
+check_past
+H(a -> O(b))
+```
 
-Suppose you want to create a new command file called `testingLTL` and included the command along with its arguments. You execute that command file you should change how you execute the tool in the following way: `dune exec ./bin/main.exe < testingLTL`
+### 4. Entailment Checking
+#### `check_entailment`
+Checks if the first formula logically entails the second formula.
+
+**Format:**
+```
+check_entailment
+<formula_1>
+<formula_2>
+```
+
+**Examples:**
+```
+check_entailment
+G(a)
+!F(a)
+
+check_entailment
+!F(a)
+G(a)
+```
+
+### 5. Trace Generation
+#### `positive_trace_gen`
+Generates a trace that **satisfies** the given formula. Output stored in `nusmv_executable_path/trace.out`.
+
+**Format:**
+```
+positive_trace_gen
+<formula>
+```
+
+**Example:**
+```
+positive_trace_gen
+F(a)
+```
+
+#### `negative_trace_gen`
+Generates a trace that **falsifies** the given formula. Output stored in `nusmv_executable_path/trace.out`.
+
+**Format:**
+```
+negative_trace_gen
+<formula>
+```
+
+**Example:**
+```
+negative_trace_gen
+G(X(x1) -> (x2 & !X(x2)))
+```
+
+### 6. Trace Satisfaction Checking
+#### `check_trace_satisfaction`
+Verifies whether a given trace satisfies an LTL formula.
+
+**Format:**
+```
+check_trace_satisfaction
+<formula>
+<trace>
+```
+
+**Trace Format:** `[var1=value1, var2=value2, ...]; [var1=value1, var2=value2, ...]; ...`
+
+**Examples:**
+```
+check_trace_satisfaction
+G(p -> (a S b))
+[a=false, b=true, p=false]; [a=true, b=false, p=false]; [a=true, b=false, p=true]
+
+check_trace_satisfaction
+a S b
+[a=false, b=true]
+
+check_trace_satisfaction
+G(a -> Y(b))
+[a=false,b=true]; [a=false,b=false]; [a=false,b=false]; [a=false,b=false]; [a=true,b=false]
+
+check_trace_satisfaction
+G(a -> b)
+[a=true,b=true]; [a=false,b=false]; [a=false,b=false]; [a=true,b=false]; [a=false,b=true]
+
+check_trace_satisfaction
+X(Y a)
+[a=true]; [a=false]
+
+check_trace_satisfaction
+a U b
+[a=false,b=true]
+
+check_trace_satisfaction
+G(a) & G(c)
+[a=true,c=true]; [a=true,c=true]
+```
+
+## LTL Operators Reference
+
+### Temporal Operators
+- **X** (Next): Formula holds in the next state
+- **F** (Finally/Eventually): Formula will hold at some future state
+- **G** (Globally/Always): Formula holds in all future states
+- **U** (Until): First formula holds until second formula becomes true
+- **S** (Since): Past version of Until
+- **Y** (Yesterday): Formula held in the previous state
+- **O** (Once): Formula held at some past state
+- **H** (Historically): Formula held in all past states
+
+### Propositional Operators
+- **!** (Not): Negation
+- **&** (And): Conjunction
+- **|** (Or): Disjunction
+- **->** (Implies): Implication
+- **<->** (If and only if): Biconditional
+
+## Creating Custom Input Files
+
+Create a new file (e.g., `my_commands.txt`) with your desired commands:
+
+```
+equiv
+F(a)
+!G(!a)
+```
+
+Then execute:
+```bash
+dune exec ./bin/main.exe < my_commands.txt
+```
+
+## Output Files
+
+- **Trace files**: Generated traces are stored in `nusmv_executable_path/trace.out`
+- **Console output**: Results and analysis are printed to standard output
+
+## Notes
+
+- The tool processes only the first command in each input file
+- Ensure NuSMV is properly installed and the path is correctly configured
+- All formulas should follow standard LTL syntax
+- Trace format uses semicolon-separated states with comma-separated variable assignments
