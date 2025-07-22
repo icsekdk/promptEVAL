@@ -20,7 +20,7 @@ from Levenshtein import distance as levenshtein_distance
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import importlib
-
+from pathlib import Path
 from parse_prompt import send_request
 import argparse
 from parse_prompt import MODEL_SETS, LEARNING_APPROACHES
@@ -52,8 +52,9 @@ def parse_args():
                         help="Specific approaches to run (optional). If not specified, uses default approaches for experiment type.")
     
     # Output configuration
-    parser.add_argument("--output_dir", type=str, default="output/nl2pl",
-                        help="Directory to save output files")
+    parser.add_argument("--base_output_dir", type=str,
+                        default="data/output_data",
+                        help="Base directory for output files. The full path will include experiment_type.")
     parser.add_argument("--raw_responses_file", type=str, default=None,
                         help="Custom filename for raw responses (without extension)")
     parser.add_argument("--detailed_results_file", type=str, default=None,
@@ -94,20 +95,20 @@ def parse_args():
 
 def setup_output_paths(args):
     """Setup output file paths based on arguments"""
-    os.makedirs(args.output_dir, exist_ok=True)
-    
-    # Create default filenames if not provided
-    base_name = f"nl2pl_{args.experiment_type}"
-    
+    full_output_dir = Path(args.base_output_dir) / args.experiment_type / "nl2pl"
+
+    # 2. Create the output directory if it doesn't exist
+    full_output_dir.mkdir(parents=True, exist_ok=True)
+
+    # 3. Create default filenames if custom ones are not provided
+    file_base_name = f"nl2pl_{args.experiment_type}"
+
     paths = {
-        'raw_responses': os.path.join(args.output_dir, 
-                                    f"{args.raw_responses_file or base_name}_raw_responses.csv"),
-        'detailed_results': os.path.join(args.output_dir, 
-                                       f"{args.detailed_results_file or base_name}_detailed_evaluation_results.csv"),
-        'aggregated_results': os.path.join(args.output_dir, 
-                                         f"{args.aggregated_results_file or base_name}_aggregated_results.csv")
+        # Use full_output_dir (a Path object) and the / operator for clean joining
+        'raw_responses': full_output_dir / f"{args.raw_responses_file or file_base_name}_raw_responses.csv",
+        'detailed_results': full_output_dir / f"{args.detailed_results_file or file_base_name}_detailed_evaluation_results.csv",
+        'aggregated_results': full_output_dir / f"{args.aggregated_results_file or file_base_name}_aggregated_results.csv"
     }
-    
     return paths
 
 def send_request_with_retries(prompt, model, max_retries=5, initial_delay=5, verbose=False):

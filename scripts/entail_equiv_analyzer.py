@@ -8,7 +8,7 @@ script_dir = Path(__file__).parent
 project_root = script_dir.parent  # Assumes script is in experiments/
 experiment_name = sys.argv[1] if len(sys.argv) > 1 else "nl2futureltl"
 
-experiment_dir = project_root / "output" / experiment_name
+experiment_dir = project_root / "output_data" / experiment_name
 
 def read_data(filepath):
     """Read the CSV data with error handling"""
@@ -22,16 +22,16 @@ def extract_columns(df):
     """Extract and categorize all relevant columns"""
     # Model output columns
     model_cols = [col for col in df.columns if any(model in col for model in 
-                 ['claude-sonnet', 'gemini', 'gpt-3.5-turbo', 'gpt-4o', 'gpt-4o-mini']) 
+                 ["gpt-3.5-turbo", "gpt-4o-mini", "gpt-4o", "claude-3.5-sonnet", "gemini-1.5-pro","gemini-1.5-flash", "gemini-2.5-flash"]) 
                  and not col.startswith(('Eq_', 'En_', 'Syntax_'))]
-    
+  
     # Comparison columns
     eq_cols = [col for col in df.columns if col.startswith('Eq_')]
     en_cols = [col for col in df.columns if col.startswith('En_')]
     syntax_cols = [col for col in df.columns if col.startswith('Syntax_')]
     
     # Model configurations
-    models = ['claude-sonnet', 'gemini', 'gpt-3.5-turbo', 'gpt-4o-mini', 'gpt-4o']
+    models = ["gpt-3.5-turbo", "gpt-4o-mini", "gpt-4o", "claude-3.5-sonnet", "gemini-1.5-pro","gemini-1.5-flash", "gemini-2.5-flash"]
     prompt_types = ['few_shot', 'zero_shot', 'zero_shot_self_refine']
     
     return model_cols, eq_cols, en_cols, syntax_cols, models, prompt_types
@@ -446,55 +446,135 @@ def generate_comprehensive_table(df, models, prompt_types):
     
     return pd.DataFrame(results)
 
+# def generate_summary_report(results_dict):
+#     """Generate a comprehensive summary report"""
+#     report = []
+    
+#     # Overall performance summary
+#     perf_df = results_dict['ground_truth_performance']
+#     if not perf_df.empty:
+#         report.append("=== OVERALL PERFORMANCE SUMMARY ===")
+        
+#         # Best performing models
+#         best_exact = perf_df.loc[perf_df['exact_match_accuracy'].idxmax()]
+#         best_semantic = perf_df.loc[perf_df['semantic_equivalence'].idxmax()]
+        
+#         report.append(f"Best Exact Match: {best_exact['model']} with {best_exact['prompt_type']} ({best_exact['exact_match_accuracy']:.2f}%)")
+#         report.append(f"Best Semantic Equiv: {best_semantic['model']} with {best_semantic['prompt_type']} ({best_semantic['semantic_equivalence']:.2f}%)")
+        
+#         # Average performance by model
+#         model_avg = perf_df.groupby('model').agg({
+#             'exact_match_accuracy': 'mean',
+#             'semantic_equivalence': 'mean',
+#             'syntax_ok_rate': 'mean'
+#         }).round(2)
+        
+#         report.append("\nAverage Performance by Model:")
+#         report.append(model_avg.to_string())
+        
+#         # Average performance by prompt type
+#         prompt_avg = perf_df.groupby('prompt_type').agg({
+#             'exact_match_accuracy': 'mean',
+#             'semantic_equivalence': 'mean',
+#             'syntax_ok_rate': 'mean'
+#         }).round(2)
+        
+#         report.append("\nAverage Performance by Prompt Type:")
+#         report.append(prompt_avg.to_string())
+    
+#     # Error analysis summary
+#     error_df = results_dict['error_patterns']
+#     if not error_df.empty:
+#         report.append("\n=== ERROR ANALYSIS ===")
+#         report.append("Most Problematic Formula Types:")
+#         report.append(error_df.head(5).to_string(index=False))
+    
+#     # Prompting method recommendations
+#     prompt_df = results_dict['prompting_comparison']
+#     if not prompt_df.empty:
+#         report.append("\n=== PROMPTING METHOD RECOMMENDATIONS ===")
+#         report.append(prompt_df.to_string(index=False))
+    
+#     return "\n".join(report)
+
 def generate_summary_report(results_dict):
     """Generate a comprehensive summary report"""
     report = []
-    
+
     # Overall performance summary
-    perf_df = results_dict['ground_truth_performance']
-    if not perf_df.empty:
-        report.append("=== OVERALL PERFORMANCE SUMMARY ===")
-        
-        # Best performing models
-        best_exact = perf_df.loc[perf_df['exact_match_accuracy'].idxmax()]
-        best_semantic = perf_df.loc[perf_df['semantic_equivalence'].idxmax()]
-        
-        report.append(f"Best Exact Match: {best_exact['model']} with {best_exact['prompt_type']} ({best_exact['exact_match_accuracy']:.2f}%)")
-        report.append(f"Best Semantic Equiv: {best_semantic['model']} with {best_semantic['prompt_type']} ({best_semantic['semantic_equivalence']:.2f}%)")
-        
-        # Average performance by model
-        model_avg = perf_df.groupby('model').agg({
-            'exact_match_accuracy': 'mean',
-            'semantic_equivalence': 'mean',
-            'syntax_ok_rate': 'mean'
-        }).round(2)
-        
-        report.append("\nAverage Performance by Model:")
-        report.append(model_avg.to_string())
-        
-        # Average performance by prompt type
-        prompt_avg = perf_df.groupby('prompt_type').agg({
-            'exact_match_accuracy': 'mean',
-            'semantic_equivalence': 'mean',
-            'syntax_ok_rate': 'mean'
-        }).round(2)
-        
-        report.append("\nAverage Performance by Prompt Type:")
-        report.append(prompt_avg.to_string())
+    perf_df = results_dict.get('ground_truth_performance') # Use .get() for safer access
     
+    if perf_df is None or perf_df.empty:
+        report.append("=== OVERALL PERFORMANCE SUMMARY: No data available ===")
+    else:
+        report.append("=== OVERALL PERFORMANCE SUMMARY ===")
+
+        # Check for existence and non-NaN values in columns before idxmax
+        has_exact_match = 'exact_match_accuracy' in perf_df.columns and not perf_df['exact_match_accuracy'].isnull().all()
+        has_semantic_equiv = 'semantic_equivalence' in perf_df.columns and not perf_df['semantic_equivalence'].isnull().all()
+
+        if has_exact_match:
+            # Check if there's actually a max index that is not NaN
+            idx_exact = perf_df['exact_match_accuracy'].idxmax()
+            if not pd.isna(idx_exact): # Check if idxmax returned a valid index
+                best_exact = perf_df.loc[idx_exact]
+                report.append(f"Best Exact Match: {best_exact.get('model', 'N/A')} with {best_exact.get('prompt_type', 'N/A')} ({best_exact.get('exact_match_accuracy', 0):.2f}%)")
+            else:
+                report.append("Best Exact Match: No valid exact match data to determine best.")
+        else:
+            report.append("Best Exact Match: 'exact_match_accuracy' column missing or all NaN.")
+
+        if has_semantic_equiv:
+            idx_semantic = perf_df['semantic_equivalence'].idxmax()
+            if not pd.isna(idx_semantic): # Check if idxmax returned a valid index
+                best_semantic = perf_df.loc[idx_semantic]
+                report.append(f"Best Semantic Equiv: {best_semantic.get('model', 'N/A')} with {best_semantic.get('prompt_type', 'N/A')} ({best_semantic.get('semantic_equivalence', 0):.2f}%)")
+            else:
+                report.append("Best Semantic Equiv: No valid semantic equivalence data to determine best.")
+        else:
+            report.append("Best Semantic Equiv: 'semantic_equivalence' column missing or all NaN.")
+
+        # Average performance by model
+        if all(col in perf_df.columns for col in ['model', 'exact_match_accuracy', 'semantic_equivalence', 'syntax_ok_rate']):
+            model_avg = perf_df.groupby('model').agg({
+                'exact_match_accuracy': 'mean',
+                'semantic_equivalence': 'mean',
+                'syntax_ok_rate': 'mean'
+            }).round(2)
+            report.append("\nAverage Performance by Model:")
+            report.append(model_avg.to_string())
+        else:
+            report.append("\nAverage Performance by Model: Not enough columns (model, exact_match_accuracy, semantic_equivalence, syntax_ok_rate) to compute.")
+
+        # Average performance by prompt type
+        if all(col in perf_df.columns for col in ['prompt_type', 'exact_match_accuracy', 'semantic_equivalence', 'syntax_ok_rate']):
+            prompt_avg = perf_df.groupby('prompt_type').agg({
+                'exact_match_accuracy': 'mean',
+                'semantic_equivalence': 'mean',
+                'syntax_ok_rate': 'mean'
+            }).round(2)
+            report.append("\nAverage Performance by Prompt Type:")
+            report.append(prompt_avg.to_string())
+        else:
+            report.append("\nAverage Performance by Prompt Type: Not enough columns (prompt_type, exact_match_accuracy, semantic_equivalence, syntax_ok_rate) to compute.")
+
     # Error analysis summary
-    error_df = results_dict['error_patterns']
-    if not error_df.empty:
+    error_df = results_dict.get('error_patterns')
+    if error_df is None or error_df.empty:
+        report.append("\n=== ERROR ANALYSIS: No data available ===")
+    else:
         report.append("\n=== ERROR ANALYSIS ===")
         report.append("Most Problematic Formula Types:")
         report.append(error_df.head(5).to_string(index=False))
-    
+
     # Prompting method recommendations
-    prompt_df = results_dict['prompting_comparison']
-    if not prompt_df.empty:
+    prompt_df = results_dict.get('prompting_comparison')
+    if prompt_df is None or prompt_df.empty:
+        report.append("\n=== PROMPTING METHOD RECOMMENDATIONS: No data available ===")
+    else:
         report.append("\n=== PROMPTING METHOD RECOMMENDATIONS ===")
         report.append(prompt_df.to_string(index=False))
-    
+
     return "\n".join(report)
 
 def main_analysis(filepath):
@@ -535,6 +615,52 @@ def main_analysis(filepath):
     print("Analysis complete!")
     print("\n" + summary)
     
+    return results
+
+def run_full_analysis(input_csv_path: Path, output_directory: Path):
+    """Main analysis function that runs all analyses"""
+    print("Reading data...")
+    df = read_data(input_csv_path)
+    if df is None:
+        return None
+    output_directory.mkdir(parents=True, exist_ok=True)
+
+    print("Extracting columns...")
+    model_cols, eq_cols, en_cols, syntax_cols, models, prompt_types = extract_columns(df)
+    
+    print("Running analyses...")
+    
+    # Run all analyses
+    results = {
+        'ground_truth_performance': analyze_ground_truth_performance(df, models, prompt_types),
+        'pairwise_equivalence': analyze_pairwise_comparisons(df, eq_cols, en_cols)[0],
+        'pairwise_entailment': analyze_pairwise_comparisons(df, eq_cols, en_cols)[1],
+        'error_patterns': analyze_error_patterns(df, models, prompt_types),
+        'prompting_comparison': compare_prompting_methods(df, models, prompt_types),
+        'comprehensive_table': generate_comprehensive_table(df, models, prompt_types)
+    }
+    
+    # Save all results
+    print("Saving results...")
+    for name, result_df in results.items():
+        if isinstance(result_df, pd.DataFrame) and not result_df.empty:
+            save_path = output_directory / f'{name}.csv'
+            result_df.to_csv(save_path, index=False)
+            print(f"Saved {name}.csv to {save_path}")
+        else:
+            print(f"Skipping saving for {name}: Not a DataFrame or empty.")
+
+
+    # Generate and save summary report
+    summary = generate_summary_report(results)
+    summary_file_path = output_directory / 'analysis_summary.txt'
+    with open(summary_file_path, 'w') as f:
+        f.write(summary)
+    print(f"Saved analysis_summary.txt to {summary_file_path}")
+
+    print("Analysis complete!")
+    print("\n" + summary)
+
     return results
 
 # Run the analysis

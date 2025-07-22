@@ -15,9 +15,13 @@ experiment_dir = project_root / "output" / experiment_name
 INPUT_CSV = experiment_dir / "nl2ltl_summary_results.csv"
 OUTPUT_CSV = experiment_dir / "semantic_equiv_entail_results.csv"
 
-# Configuration - SET THESE PATHS
-# Convert string path to Path object
-LTL_DIR = Path("/Users/priscilladanso/Documents/GitHub/LTL")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]  # Adjust level if needed
+LTL_DIR = PROJECT_ROOT / "LTL"
+
+# Check that it exists (optional, good for debugging)
+assert LTL_DIR.exists(), f"LTL directory not found at: {LTL_DIR}"
+
+print("Using LTL directory:", LTL_DIR)
 
 # NUSMV_PATH = "/usr/local/NuSMV-2.6.0/bin/nusmv"
 NUSMV_PATH = "/usr/local/bin/nusmv"
@@ -70,13 +74,13 @@ def setup_environment():
         print(f"Error setting up environment: {e}")
         print("Continuing without compilation...")
 
-def process_csv():
+def process_csv(input_csv, output_csv):
     """Process the input CSV and generate results"""
-    if not INPUT_CSV.exists():
-        print(f"Error: Input CSV not found at {INPUT_CSV}")
+    if not input_csv.exists():
+        print(f"Error: Input CSV not found at {input_csv}")
         return
     
-    with open(INPUT_CSV) as f_in, open(OUTPUT_CSV, 'w', newline='') as f_out:
+    with open(input_csv) as f_in, open(output_csv, 'w', newline='') as f_out:
         reader = csv.reader(f_in)
         writer = csv.writer(f_out)
         

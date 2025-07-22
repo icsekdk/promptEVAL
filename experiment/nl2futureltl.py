@@ -19,7 +19,16 @@ import pandas as pd
 from pathlib import Path
 from collections import defaultdict
 from parse_prompt import MODEL_SETS, LEARNING_APPROACHES
-
+import argparse
+import importlib
+import csv
+import os
+import pandas as pd
+from pathlib import Path
+from collections import defaultdict
+from parse_prompt import MODEL_SETS, LEARNING_APPROACHES
+from scripts.semantic_checker import process_csv
+from scripts.entail_equiv_analyzer import run_full_analysis
 def get_generate_prompt_function(experiment_type):
     """Dynamically load the prompt generator function"""
     module_path = f"prompts.{experiment_type}.ltl_future_prompt_template"
@@ -28,18 +37,13 @@ def get_generate_prompt_function(experiment_type):
 
 def get_extractor_function(experiment_type):
     """Dynamically load the appropriate extractor function based on experiment type"""
-    if experiment_type == "python":
-        module_path = f"extractors.python_ast_extractor"
-    else:
-        module_path = f"extractors.standard_ltl_extractor"
-    
     try:
-        module = importlib.import_module(module_path)
-        return module.extract_ltl_formula
+        from scripts.ltl_extractor import get_appropriate_extractor
+        return get_appropriate_extractor(experiment_type)
     except ImportError:
-        print(f"Warning: Could not import {module_path}, using default extractor")
+        print(f"Warning: Could not import ltl_extractor, using default")
         return extract_ltl_formula_default
-
+    
 def extract_ltl_formula_default(response_text):
     """
     Default LTL formula extractor for minimal and detailed experiments.
@@ -54,60 +58,10 @@ def extract_ltl_formula_default(response_text):
     
     return response
 
-def extract_ltl_formula_python_ast(response_text):
-    """
-    Python AST extractor for python experiment type.
-    Converts Python AST format to standard LTL.
-    """
-    if not response_text or response_text.strip() == "Error":
-        return "No LTL formula extracted"
-    
-    try:
-        # Extract Python AST from response
-        response = response_text.strip()
-        
-        # Look for Python code blocks or AST representations
-        if "```python" in response:
-            # Extract code from markdown code block
-            start = response.find("```python") + 9
-            end = response.find("```", start)
-            if end != -1:
-                python_code = response[start:end].strip()
-            else:
-                python_code = response[start:].strip()
-        else:
-            python_code = response
-        
-        # Here you would implement the conversion from Python AST to LTL
-        # This is a placeholder - implement your actual AST to LTL conversion logic
-        converted_ltl = convert_python_ast_to_ltl(python_code)
-        return converted_ltl
-        
-    except Exception as e:
-        print(f"Error converting Python AST to LTL: {e}")
-        return "Error in AST conversion"
-
-def convert_python_ast_to_ltl(python_code):
-    conversions = {
-        "Always(": "G(",
-        "Eventually(": "F(",
-        "Next(": "X(",
-        "Until(": "U(",
-        "And(": "(",
-        "Or(": "(",
-        "Not(": "!(",
-    }
-    
-    converted = python_code
-    for py_op, ltl_op in conversions.items():
-        converted = converted.replace(py_op, ltl_op)
-    
-    return converted.strip()
-
 def parse_args():
     """Parse command line arguments with comprehensive options"""
     parser = argparse.ArgumentParser(
-        description="Run Natural Language to Future LTL experiment with configurable parameters.",
+        description="Run WFF characterization experiment with configurable parameters.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     
@@ -125,7 +79,7 @@ def parse_args():
                         help="Specific approaches to run (optional). If not specified, uses default approaches for experiment type.")
     
     # Output configuration
-    parser.add_argument("--output_dir", type=str, default="output",
+    parser.add_argument("--output_dir", type=str, default="",
                         help="Base output directory for results")
     parser.add_argument("--experiment_name", type=str,
                         help="Custom experiment name (defaults to experiment_type)")
@@ -273,7 +227,7 @@ def process_single_response(model, approach, row, generate_prompt_func):
         'Refined Response': refined_response
     }
 
-def process_responses(raw_responses_df, detailed_results_file, summary_results_file, extractor_func):
+def process_responses(raw_responses_df, detailed_results_file, summary_results_file, extractor_func, experiment_type):
     """Process raw responses and generate detailed and summary results."""
     if raw_responses_df.empty:
         return
@@ -282,7 +236,7 @@ def process_responses(raw_responses_df, detailed_results_file, summary_results_f
     nl2ltl_summary_results = {}
     
     for _, row in raw_responses_df.iterrows():
-        detailed_result, summary_result = process_single_result(row, extractor_func)
+        detailed_result, summary_result = process_single_result(row, extractor_func, experiment_type)
         nl2ltl_detailed_results.append(detailed_result)
         
         key = f"{row['Model']}_{row['Approach']}"
@@ -295,7 +249,7 @@ def process_responses(raw_responses_df, detailed_results_file, summary_results_f
     print(f"Detailed results saved to {detailed_results_file}")
     print(f"Summary results saved to {summary_results_file}")
 
-def process_single_result(row, extractor_func):
+def process_single_result(row, extractor_func, experiment_type):
     """Process a single result row and return detailed and summary results."""
     # Handle the response based on approach
     if row['Approach'] == "zero_shot_self_refine" and pd.notna(row['Refined Response']):
@@ -308,24 +262,38 @@ def process_single_result(row, extractor_func):
     if not extract_ltl:
         extract_ltl = "No LTL formula extracted"
     
+    # For python experiment, convert AST ground truth to standard LTL
+    ground_truth = row['Ground Truth']
+    if experiment_type == "python" and 'AST' in row:
+        # Use the AST column as the original ground truth and convert it
+        ast_ground_truth = row['AST']
+        if pd.notna(ast_ground_truth):
+            from scripts.ltl_extractor import convert_ast_ground_truth_to_ltl
+            ground_truth = convert_ast_ground_truth_to_ltl(ast_ground_truth)
+    
     detailed_result = {
         'Model': row['Model'],
         'Approach': row['Approach'],
         'Natural Language': row['Natural Language'],
         'Atomic Proposition': row['Atomic Proposition'],
-        "Ground Truth": row['Ground Truth'],
+        "Ground Truth": ground_truth,
         'Generated Response': generated_response,
         "LLM Response": extract_ltl
     }
     
+    # For python experiment, include both AST and converted LTL
+    if experiment_type == "python" and 'AST' in row:
+        detailed_result['AST Ground Truth'] = row['AST']
+    
     summary_result = {
         'Natural Language': row['Natural Language'],
         'Atomic Proposition': row['Atomic Proposition'],
-        "Ground Truth": row['Ground Truth'],
+        "Ground Truth": ground_truth,
         'Extracted LTL': extract_ltl
     }
     
     return detailed_result, summary_result
+
 
 def main():
     """Main function to coordinate the LTL processing pipeline."""
@@ -343,6 +311,7 @@ def main():
 
     # Setup models and approaches
     models = args.models if args.models else MODEL_SETS[args.experiment_type]
+    models= ["gemini-1.5-pro", "claude-3.5-sonnet"]
     learning_approaches = args.approaches if args.approaches else LEARNING_APPROACHES[args.experiment_type]
     
     print(f"Using models: {models}")
@@ -350,7 +319,7 @@ def main():
 
     # Set experiment output directory
     experiment_name = args.experiment_name or args.experiment_type
-    output_dir = Path(args.output_dir) / experiment_name
+    output_dir = Path("data") / "output_data" / args.experiment_type / "nl2ltl"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # File paths
@@ -358,6 +327,9 @@ def main():
         "raw_responses_file": output_dir / "nl2ltl_raw_responses.csv",
         "detailed_results_file": output_dir / "nl2ltl_detailed_results.csv",
         "summary_results_file": output_dir / "nl2ltl_summary_results.csv",
+        "model_checking_file": output_dir / "semantic_equiv_entail_results.csv",
+        "analysis_output_dir": output_dir
+
     }
 
     # Load appropriate functions based on experiment type
@@ -390,11 +362,14 @@ def main():
             raw_responses, 
             file_paths["detailed_results_file"], 
             file_paths["summary_results_file"],
-            extractor_func
+            extractor_func,
+            args.experiment_type
         )
         print("Processing complete!")
     else:
         print("No raw responses found to process.")
+    process_csv(file_paths["summary_results_file"], file_paths["model_checking_file"])
+    run_full_analysis(file_paths["model_checking_file"], file_paths["analysis_output_dir"])
 
 if __name__ == "__main__":
     main()
