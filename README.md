@@ -32,15 +32,15 @@ pip install -r requirements.txt
 ```
 ## Run Specific Experiment Type
 ```bash 
-python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized.csv --experiment_type minimal
+python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized.csv --experiment_type minimal --experiment_name nl2futureltl_littletrickylogic
 ```
 OR 
 ```bash
-python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized.csv --experiment_type detailed
+python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized.csv --experiment_type detailed --experiment_name nl2futureltl_textbook
 ```
 OR 
 ```bash
-python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python
+python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python --experiment_name nl2futureltl_littletrickylogic
 ```
 
 
