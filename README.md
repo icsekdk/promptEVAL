@@ -32,26 +32,30 @@ pip install -r requirements.txt
 ```
 ## For NL2Future LTL
 ```bash 
-python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized.csv --experiment_type minimal --experiment_name nl2futureltl_littletrickylogic
+python experiment/nl2futureltl.py --dataset data/input_data/nl2ltl_finalized.csv --experiment_type minimal --experiment_name nl2futureltl_littletrickylogic
 ```
 OR 
 ```bash
-python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized.csv --experiment_type detailed --experiment_name nl2futureltl_textbook
+python experiment/nl2futureltl.py --dataset data/input_data/nl2ltl_finalized.csv --experiment_type detailed --experiment_name nl2futureltl_textbook
 ```
 OR 
 ```bash
-python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python --experiment_name nl2futureltl_littletrickylogic
+python experiment/nl2futureltl.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python --experiment_name nl2futureltl_littletrickylogic
 ```
 ```bash
-python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python --experiment_name nl2futureltl_textbook
+python experiment/nl2futureltl.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python --experiment_name nl2futureltl_textbook
+```
+## For NL2Past LTL
+```bash 
+python experiment/nl2pastltl.py --dataset data/input_data/past_ast.csv --experiment_type Python --experiment_name nl2pastltl_littletrickylogic
 ```
 
-# Trace Characterization
+## Trace Characterization
 ```bash 
 python experiment/trace_characterization.py --dataset data/input_data/trace_ast_new.csv --experiment_type python
 ```
 
-# Trace Generation
+## Trace Generation
 ```bash
 python experiment/trace_generation.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python
 ```
