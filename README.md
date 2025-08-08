@@ -30,7 +30,7 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 ```
-## Run Specific Experiment Type
+## For NL2Future LTL
 ```bash 
 python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized.csv --experiment_type minimal --experiment_name nl2futureltl_littletrickylogic
 ```
@@ -42,6 +42,20 @@ OR
 ```bash
 python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python --experiment_name nl2futureltl_littletrickylogic
 ```
+```bash
+python experiment/nl2ltl.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python --experiment_name nl2futureltl_textbook
+```
+
+# Trace Characterization
+```bash 
+python experiment/trace_characterization.py --dataset data/input_data/trace_ast_new.csv --experiment_type python
+```
+
+# Trace Generation
+```bash
+python experiment/trace_generation.py --dataset data/input_data/nl2ltl_finalized_ast.csv --experiment_type python
+```
+
 
 
 ## Supported Learning approaches by experiment type
